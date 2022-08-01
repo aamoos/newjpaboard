@@ -1,15 +1,14 @@
 package jpa.board.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -27,12 +26,13 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class Board {
 
     @Id @GeneratedValue
     @Column(name = "board_id")
     private Long id;            //번호
-    private String username;    //작성자
+
     private String title;       //제목
     private String content;     //내용
 
@@ -43,12 +43,25 @@ public class Board {
     private LocalDateTime uptDate;     //수정 날짜
 
     private Long viewCount;     //조회수
+    private String delYn;       //삭제여부
 
-    public void changeBoard(String username, String title, String content, Long viewCount){
-        this.username = username;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    public Board update(String title, String content, String delYn){
         this.title = title;
         this.content = content;
-        this.viewCount = viewCount;
+        this.delYn = delYn;
+        return this;
+    }
+
+    @Builder
+    public Board(String title, String content, Long viewCount, String delYn){
+        this.title = title;
+        this.content = content;
+        this.viewCount = 0L;
+        this.delYn = "N";
     }
 
 }
