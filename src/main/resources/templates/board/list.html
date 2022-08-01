@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+    <div layout:fragment="content" class="content">
+    <nav class="container">
+        <br>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="제목을 입력해주세요.">
+                <button type="submit" class="btn btn-secondary">검색</button>
+            </div>
+        <br>
+        <form>
+            <table class="table table-hover">
+                <colgroup>
+                    <col width="2%" />
+                    <col width="5%" />
+                    <col width="20%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                    <col width="5%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="checkbox-inline">
+                            <input type="checkbox" id="allCheckBox" class="chk">
+                            </label>
+                        </th>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>날짜</th>
+                        <th>조회수</th>
+                        <th>파일유무</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" class="chk" name="chk" value="">
+                            </label>
+                        <td>1</td>
+                        <td><a href=""></a>제목입니다.</td>
+                        <td>작성자</td>
+                        <td>2022.08.01</td>
+                        <td>1</td>
+                        <td>이미지</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <!-- ADMIN 권한일경우에만 글쓰기 권한있음 -->
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-danger">글삭제</a>
+                <a href="/write" class="btn btn-primary">글쓰기</a>
+            </div>
+            <br>
+            <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </form>
+    </nav>
+  </div>
+</html>

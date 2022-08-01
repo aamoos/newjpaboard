@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+
+<!-- 현재 화면에서만 사용하는 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" type="text/css" href="main.css" />
+</th:block>
+
+<!-- 현재 화면에서만 사용하는 js -->
+<th:block layout:fragment="script">
+    <script src="main.js"></script>
+</th:block>
+
+<div>
+    <th:block layout:fragment="content">
+        contents 영역
+    </th:block>
+</div>
+</html>

@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+
+<div layout:fragment="content" class="content">
+    <article>
+        <div class="container" role="main">
+            <div class="mb-3">
+                <label for="boardTitle">제목</label>
+                <input type="text" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력해 주세요">
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="reg_id">작성자</label>
+                <input type="text" class="form-control" id="reg_id" name="regId"  value="" readonly>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="boardContent">내용</label>
+                <textarea class="form-control" rows="5" id="boardContent" name="boardContent" placeholder="내용을 입력해 주세요"></textarea>
+            </div>
+            <br>
+            <br>
+            <div>
+                <button onclick="registerAction()" type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
+                <button onclick="location.href='/'" type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+            </div>
+        </div>
+    </article>
+</div>
+</html>
