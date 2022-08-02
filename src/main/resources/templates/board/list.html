@@ -3,94 +3,94 @@
 <html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default_layout">
     <div layout:fragment="content" class="content">
-    <nav class="container">
-        <br>
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="제목을 입력해주세요.">
-                <button type="submit" class="btn btn-secondary">검색</button>
-            </div>
-        <br>
-        <form>
-            <table class="table table-hover">
-                <colgroup>
-                    <col width="2%" />
-                    <col width="5%" />
-                    <col width="20%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                    <col width="5%" />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>
-                            <label class="checkbox-inline">
-                            <input type="checkbox" id="allCheckBox" class="chk">
-                            </label>
-                        </th>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>날짜</th>
-                        <th>조회수</th>
-                    </tr>
-                </thead>
+        <form th:action th:object="${form}" method="get">
+            <nav class="container">
+                <br>
+                <div class="input-group">
+                    <input type="text" name="searchVal" th:value="${searchVal}" class="form-control" placeholder="제목을 입력해주세요.">
+                    <button type="submit" class="btn btn-secondary">검색</button>
+                </div>
+                <br>
+                <table class="table table-hover">
+                    <colgroup>
+                        <col width="2%" />
+                        <col width="5%" />
+                        <col width="20%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="checkbox-inline">
+                                <input type="checkbox" id="allCheckBox" class="chk">
+                                </label>
+                            </th>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>날짜</th>
+                            <th>조회수</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr th:each="list, index : ${list}">
-                        <td>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" class="chk" name="cchk" value="">
-                            </label>
-                        <td th:text="${totalCount - (size * number) - index.index}"></td>
-                        <td><a th:text="${list.title}" href=""></a></td>
-                        <td th:text="${list.username}"></td>
-                        <td th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${list.viewCount}"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
+                    <tbody>
+                        <tr th:each="list, index : ${list}">
+                            <td>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" class="chk" name="cchk" value="">
+                                </label>
+                            <td th:text="${totalCount - (size * number) - index.index}"></td>
+                            <td><a th:text="${list.title}" href=""></a></td>
+                            <td th:text="${list.username}"></td>
+                            <td th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${list.viewCount}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
 
-            <div class="d-flex justify-content-end">
-                <a class="btn btn-danger">글삭제</a>
-                <a href="/write" class="btn btn-primary">글쓰기</a>
-            </div>
-            <br>
-            <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
-                 th:with="start=${(list.number/maxPage)*maxPage + 1},
-                  end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
-                <ul class="pagination">
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-danger">글삭제</a>
+                    <a href="/write" class="btn btn-primary">글쓰기</a>
+                </div>
+                <br>
+                <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
+                     th:with="start=${(list.number/maxPage)*maxPage + 1},
+                      end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
+                    <ul class="pagination">
 
-                    <li th:if="${start > 1}" class="page-item">
-                        <a th:href="@{/?(page=0)}" class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;&laquo;</span>
-                        </a>
-                    </li>
+                        <li th:if="${start > 1}" class="page-item">
+                            <a th:href="@{/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
 
-                    <li th:if="${start > 1}" class="page-item">
-                        <a th:href="@{/?(page=${start - maxPage-1})}" class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
+                        <li th:if="${start > 1}" class="page-item">
+                            <a th:href="@{/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
 
-                    <li th:each="page: ${#numbers.sequence(start, end)}" class="page-item" th:classappend="${list.number+1 == page} ? active">
-                        <a th:href="@{/?(page=${page-1})}" th:text="${page}" class="page-link" href="#">1</a>
-                    </li>
+                        <li th:each="page: ${#numbers.sequence(start, end)}" class="page-item" th:classappend="${list.number+1 == page} ? active">
+                            <a th:href="@{/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link" href="#">1</a>
+                        </li>
 
-                    <li th:if="${end < list.totalPages}" class="page-item">
-                        <a th:href="@{/?(page=${start + maxPage -1})}" class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
+                        <li th:if="${end < list.totalPages}" class="page-item">
+                            <a th:href="@{/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
 
-                    <li th:if="${end < list.totalPages}" class="page-item">
-                        <a th:href="@{/?(page=${list.totalPages-1})}" class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                        <li th:if="${end < list.totalPages}" class="page-item">
+                            <a th:href="@{/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </nav>
         </form>
-    </nav>
-  </div>
+    </div>
 </html>

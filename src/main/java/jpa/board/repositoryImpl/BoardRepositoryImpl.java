@@ -1,5 +1,6 @@
 package jpa.board.repositoryImpl;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpa.board.dto.BoardDto;
 import jpa.board.dto.QBoardDto;
@@ -42,6 +43,7 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
         Long count = jpaQueryFactory
                 .select(board.count())
                 .from(board)
+                .where(containsSearch(searchVal))
                 //.leftJoin(board.member, member)   //검색조건 최적화
                 .fetchOne();
         return count;
@@ -59,10 +61,21 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
                         ,member.username))
                 .from(board)
                 .leftJoin(board.member, member)
+                .where(containsSearch(searchVal))
                 .orderBy(board.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
         return content;
+    }
+
+    /**
+    * @methodName : containsSearch
+    * @date : 2022-08-02 오후 5:28
+    * @author : 김재성
+    * @Description: %키워드% 조회
+    **/
+    private BooleanExpression containsSearch(String searchVal){
+        return searchVal != null ? board.title.contains(searchVal) : null;
     }
 }
