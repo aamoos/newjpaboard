@@ -68,7 +68,7 @@
                     </li>
 
                     <li th:if="${start > 1}" class="page-item">
-                        <a th:href="@{/?(page=${start - maxPage})}" class="page-link" href="#" aria-label="Previous">
+                        <a th:href="@{/?(page=${start - maxPage-1})}" class="page-link" href="#" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -78,7 +78,7 @@
                     </li>
 
                     <li th:if="${end < list.totalPages}" class="page-item">
-                        <a th:href="@{/?(page=${start + maxPage-1})}" class="page-link" href="#" aria-label="Next">
+                        <a th:href="@{/?(page=${start + maxPage -1})}" class="page-link" href="#" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
