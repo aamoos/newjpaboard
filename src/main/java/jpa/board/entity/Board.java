@@ -29,7 +29,8 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class Board {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long id;            //번호
 
@@ -49,19 +50,19 @@ public class Board {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Board update(String title, String content, String delYn){
+    public Board update(String title, String content){
         this.title = title;
         this.content = content;
-        this.delYn = delYn;
         return this;
     }
 
     @Builder
-    public Board(String title, String content, Long viewCount, String delYn){
+    public Board(String title, String content, Long viewCount, String delYn, Member member){
         this.title = title;
         this.content = content;
         this.viewCount = 0L;
         this.delYn = "N";
+        this.member = member;
     }
 
 }

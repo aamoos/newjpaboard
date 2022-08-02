@@ -19,7 +19,6 @@
                     <col width="5%" />
                     <col width="5%" />
                     <col width="5%" />
-                    <col width="5%" />
                 </colgroup>
                 <thead>
                     <tr>
@@ -33,45 +32,60 @@
                         <th>작성자</th>
                         <th>날짜</th>
                         <th>조회수</th>
-                        <th>파일유무</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
+                    <tr th:each="list, index : ${list}">
                         <td>
                             <label class="checkbox-inline">
-                                <input type="checkbox" class="chk" name="chk" value="">
+                                <input type="checkbox" class="chk" name="cchk" value="">
                             </label>
-                        <td>1</td>
-                        <td><a href=""></a>제목입니다.</td>
-                        <td>작성자</td>
-                        <td>2022.08.01</td>
-                        <td>1</td>
-                        <td>이미지</td>
+                        <td th:text="${totalCount - (size * number) - index.index}"></td>
+                        <td><a th:text="${list.title}" href=""></a></td>
+                        <td th:text="${list.username}"></td>
+                        <td th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${list.viewCount}"></td>
                     </tr>
                 </tbody>
             </table>
             <br>
-            <!-- ADMIN 권한일경우에만 글쓰기 권한있음 -->
+
             <div class="d-flex justify-content-end">
                 <a class="btn btn-danger">글삭제</a>
                 <a href="/write" class="btn btn-primary">글쓰기</a>
             </div>
             <br>
-            <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example">
+            <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
+                 th:with="start=${(list.number/maxPage)*maxPage + 1},
+                  end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
                 <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
+
+                    <li th:if="${start > 1}" class="page-item">
+                        <a th:href="@{/?(page=0)}" class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+
+                    <li th:if="${start > 1}" class="page-item">
+                        <a th:href="@{/?(page=${start - maxPage})}" class="page-link" href="#" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+
+                    <li th:each="page: ${#numbers.sequence(start, end)}" class="page-item" th:classappend="${list.number+1 == page} ? active">
+                        <a th:href="@{/?(page=${page-1})}" th:text="${page}" class="page-link" href="#">1</a>
+                    </li>
+
+                    <li th:if="${end < list.totalPages}" class="page-item">
+                        <a th:href="@{/?(page=${start + maxPage-1})}" class="page-link" href="#" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+
+                    <li th:if="${end < list.totalPages}" class="page-item">
+                        <a th:href="@{/?(page=${list.totalPages-1})}" class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
                         </a>
                     </li>
                 </ul>
