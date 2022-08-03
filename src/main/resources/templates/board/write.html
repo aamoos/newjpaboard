@@ -4,29 +4,35 @@
       layout:decorate="~{layout/default_layout}">
 
 <div layout:fragment="content" class="content">
-    <article>
-        <div class="container" role="main">
-            <div class="mb-3">
-                <label for="boardTitle">제목</label>
-                <input type="text" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력해 주세요">
+    <form th:action th:object="${boardDto}" method="post">
+        <article>
+            <div class="container" role="main">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해 주세요" th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect date</p>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="reg_id">작성자</label>
+                    <input type="text" class="form-control" id="reg_id" name="regId"  value="관리자" readonly>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="content">내용</label>
+                    <textarea class="form-control" rows="5" id="content" name="content" placeholder="내용을 입력해 주세요"></textarea>
+                </div>
+                <br>
+                <br>
+                <div>
+                    <button type="submit" class="btn btn-sm btn-primary" id="btnSave">저장</button>
+                    <button onclick="location.href='/'" type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+                </div>
             </div>
-            <br>
-            <div class="mb-3">
-                <label for="reg_id">작성자</label>
-                <input type="text" class="form-control" id="reg_id" name="regId"  value="" readonly>
-            </div>
-            <br>
-            <div class="mb-3">
-                <label for="boardContent">내용</label>
-                <textarea class="form-control" rows="5" id="boardContent" name="boardContent" placeholder="내용을 입력해 주세요"></textarea>
-            </div>
-            <br>
-            <br>
-            <div>
-                <button onclick="registerAction()" type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
-                <button onclick="location.href='/'" type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
-            </div>
-        </div>
-    </article>
+        </article>
+    </form>
 </div>
 </html>
+
+<script>
+</script>

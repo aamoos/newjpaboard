@@ -1,5 +1,6 @@
 package jpa.board.controller;
 
+import jpa.board.dto.BoardDto;
 import jpa.board.entity.Board;
 import jpa.board.entity.Member;
 import jpa.board.repository.BoardRepository;
@@ -44,10 +45,13 @@ public class TestController {
             List<Member> memberList = memberRepository.findAll();
             Member member = memberList.get(0);
 
+            BoardDto boardDto = new BoardDto();
+            boardDto.setTitle(title);
+            boardDto.setContent(content);
+
             Board board = Board.builder()
-                    .title(title)
+                    .boardDto(boardDto)
                     .member(member)
-                    .content(content)
                     .build();
             boardRepository.save(board);
         }

@@ -2,9 +2,8 @@ package jpa.board.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 /**
@@ -23,6 +22,8 @@ import java.time.LocalDateTime;
 public class BoardDto {
 
     private Long id;            //시퀀스
+
+    @NotEmpty(message = "제목은 필수입니다.")
     private String title;              //제목
     private String content;            //내용
     private LocalDateTime regDate;     //등록 날짜

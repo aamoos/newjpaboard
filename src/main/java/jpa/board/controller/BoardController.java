@@ -10,7 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -67,8 +70,27 @@ public class BoardController {
     * @Description: 게시판 글쓰기화면
     **/
     @GetMapping("/write")
-    public String write(){
+    public String write(Model model){
+        model.addAttribute("boardDto", new BoardDto());
         return "board/write";
+    }
+
+    /**
+    * @methodName : save
+    * @date : 2022-08-03 오후 2:15
+    * @author : 김재성
+    * @Description: 게시판 글 등록
+    **/
+    @PostMapping("/write")
+    public String save(@Valid BoardDto boardDto, BindingResult result){
+
+        //유효성검사 걸릴시
+        if(result.hasErrors()){
+            return "board/write";
+        }
+
+        boardService.saveBoard(boardDto);
+        return "redirect:/";
     }
 
     /**

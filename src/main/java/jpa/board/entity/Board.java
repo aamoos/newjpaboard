@@ -1,5 +1,6 @@
 package jpa.board.entity;
 
+import jpa.board.dto.BoardDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -62,9 +63,9 @@ public class Board {
     }
 
     @Builder
-    public Board(String title, String content, Long viewCount, String delYn, Member member){
-        this.title = title;
-        this.content = content;
+    public Board(BoardDto boardDto, Member member){
+        this.title = boardDto.getTitle();
+        this.content = boardDto.getContent();
         this.viewCount = 0L;
         this.delYn = "N";
         this.member = member;
