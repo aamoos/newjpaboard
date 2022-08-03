@@ -2,15 +2,16 @@ package jpa.board.controller;
 
 import jpa.board.dto.BoardDto;
 import jpa.board.entity.Board;
+import jpa.board.repository.BoardRepository;
 import jpa.board.repository.CustomBoardRepository;
+import jpa.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 /**
  * packageName    : jpa.board.controller
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BoardController {
 
     private final CustomBoardRepository customBoardRepository;
+    private final BoardService boardService;
 
     /**
     * @methodName : list
@@ -78,5 +80,16 @@ public class BoardController {
     @GetMapping("/update")
     public String update(){
         return "board/update";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam List<String> boardIds){
+
+        for(int i=0; i<boardIds.size(); i++){
+            Long id = Long.valueOf(boardIds.get(i));
+            boardService.deleteBoard(id);
+        }
+
+        return "redirect:/";
     }
 }

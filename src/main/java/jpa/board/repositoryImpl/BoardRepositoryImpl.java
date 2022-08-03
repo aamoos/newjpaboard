@@ -62,6 +62,7 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
                 .from(board)
                 .leftJoin(board.member, member)
                 .where(containsSearch(searchVal))
+                .where(board.delYn.eq("N"))
                 .orderBy(board.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

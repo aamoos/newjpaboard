@@ -56,6 +56,11 @@ public class Board {
         return this;
     }
 
+    public Board delete(String delYn){
+        this.delYn = delYn;
+        return this;
+    }
+
     @Builder
     public Board(String title, String content, Long viewCount, String delYn, Member member){
         this.title = title;
