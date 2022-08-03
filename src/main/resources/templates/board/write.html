@@ -4,6 +4,15 @@
       layout:decorate="~{layout/default_layout}">
 
 <div layout:fragment="content" class="content">
+    <style>
+         .fieldError {
+             border-color: #bd2130;
+         }
+
+         .form-group p{
+            color: red;
+         }
+    </style>
     <form th:action th:object="${boardDto}" method="post">
         <article>
             <div class="container" role="main">

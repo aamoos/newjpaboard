@@ -99,9 +99,24 @@ public class BoardController {
     * @author : 김재성
     * @Description: 게시판 수정화면
     **/
-    @GetMapping("/update")
-    public String update(){
+    @GetMapping("/update/{boardId}")
+    public String detail(@PathVariable Long boardId, Model model){
+        Board board = boardService.selectBoardDetail(boardId);
+
+        model.addAttribute("boardDto", new BoardDto());
+        model.addAttribute("boardId", boardId);
         return "board/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@Valid BoardDto boardDto, BindingResult result){
+        //유효성검사 걸릴시
+        if(result.hasErrors()){
+            return "board/update";
+        }
+
+        boardService.saveBoard(boardDto);
+        return "redirect:/";
     }
 
     @PostMapping("/delete")

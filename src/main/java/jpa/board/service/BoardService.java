@@ -31,29 +31,50 @@ public class BoardService {
     private final MemberRepository memberRepository;
 
     /**
-    * @methodName : saveBoard
-    * @date : 2022-08-03 오후 2:13
+    * @methodName : selectBoard
+    * @date : 2022-08-03 오후 5:50
     * @author : 김재성
-    * @Description: 글등록
+    * @Description: 상세조회
     **/
+    public Board selectBoardDetail(Long id){
+        return boardRepository.findById(id).get();
+    }
+
+    /**
+     * @methodName : saveBoard
+     * @date : 2022-08-03 오후 2:13
+     * @author : 김재성
+     * @Description: 글등록
+     **/
     public Long saveBoard(BoardDto boardDto){
         List<Member> memberList = memberRepository.findAll();
         Member member = memberList.get(0);
+        Board board = null;
 
-        Board board = Board.builder()
+        //insert
+        if(boardDto.getId() == null){
+            board = Board.builder()
                     .boardDto(boardDto)
                     .member(member)
                     .build();
-        boardRepository.save(board);
+            boardRepository.save(board);
+        }
+
+        //update
+        else{
+            board = boardRepository.findById(boardDto.getId()).get();
+            board.update(boardDto.getTitle(), boardDto.getContent());
+        }
+
         return board.getId();
     }
 
-/**
-* @methodName : deleteBoard
-* @date : 2022-08-03 오후 2:14
-* @author : 김재성
-* @Description: 글 삭제
-**/
+    /**
+    * @methodName : deleteBoard
+    * @date : 2022-08-03 오후 2:14
+    * @author : 김재성
+    * @Description: 글 삭제
+    **/
     @Transactional
     public Board deleteBoard(Long id){
         Board board = boardRepository.findById(id).get();
