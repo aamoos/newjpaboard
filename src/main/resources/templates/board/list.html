@@ -36,6 +36,10 @@
                     </thead>
 
                     <tbody>
+                        <tr th:if="${totalCount == 0}">
+                            <td colspan="6" style="text-align:center">조회된 리스트가 없습니다.</td>
+                        </tr>
+
                         <tr th:each="list, index : ${list}">
                             <td>
                                 <label class="checkbox-inline">

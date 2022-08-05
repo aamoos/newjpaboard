@@ -3,10 +3,13 @@ package jpa.board.dto;
 import com.querydsl.core.annotations.QueryProjection;
 import jpa.board.entity.Board;
 import jpa.board.entity.Member;
+import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * packageName    : jpa.board.dto
@@ -33,11 +36,15 @@ public class BoardDto {
     private Long viewCount;            //조회수
     private String username;            //사용자 이름
 
+    private List<MultipartFile> multipartFile;
+
     public BoardDto(){
 
     }
 
-    public BoardDto(String title, String content){
+    @Builder
+    public BoardDto(Long id, String title, String content){
+        this.id = id;
         this.title = title;
         this.content = content;
     }

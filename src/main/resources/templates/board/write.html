@@ -16,7 +16,7 @@
 </head>
 
 <div layout:fragment="content" class="content">
-    <form th:action th:object="${boardDto}" method="post">
+    <form th:action th:object="${boardDto}" method="post" enctype="multipart/form-data">
         <article>
             <div class="container" role="main">
                 <div class="form-group">
@@ -35,6 +35,10 @@
                     <textarea class="form-control" rows="5" id="content" name="content" placeholder="내용을 입력해 주세요"></textarea>
                 </div>
                 <br>
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">파일업로드</label>
+                    <input class="form-control" type="file" id="formFileMultiple" name="file" multiple>
+                </div>
                 <br>
                 <div>
                     <button type="submit" class="btn btn-sm btn-primary" id="btnSave">저장</button>

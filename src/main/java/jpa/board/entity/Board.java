@@ -51,12 +51,35 @@ public class Board {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    /**
+    * @methodName : update
+    * @date : 2022-08-05 오후 3:51
+    * @author : 김재성
+    * @Description: 게시판 업데이트
+    **/
     public Board update(String title, String content){
         this.title = title;
         this.content = content;
         return this;
     }
 
+    /**
+    * @methodName : updateViewCount
+    * @date : 2022-08-05 오후 3:51
+    * @author : 김재성
+    * @Description: 게시판 조회수 증가
+    **/
+    public Board updateViewCount(Long viewCount){
+        this.viewCount = viewCount+1;
+        return this;
+    }
+
+    /**
+    * @methodName : delete
+    * @date : 2022-08-05 오후 3:51
+    * @author : 김재성
+    * @Description: 게시판 삭제
+    **/
     public Board delete(String delYn){
         this.delYn = delYn;
         return this;

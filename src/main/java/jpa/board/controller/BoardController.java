@@ -82,7 +82,7 @@ public class BoardController {
     * @Description: 게시판 글 등록
     **/
     @PostMapping("/write")
-    public String save(@Valid BoardDto boardDto, BindingResult result){
+    public String save(@Valid BoardDto boardDto, BindingResult result) throws Exception {
 
         //유효성검사 걸릴시
         if(result.hasErrors()){
@@ -102,10 +102,12 @@ public class BoardController {
     @GetMapping("/update/{boardId}")
     public String detail(@PathVariable Long boardId, Model model){
         Board board = boardService.selectBoardDetail(boardId);
-        BoardDto boardDto = new BoardDto();
-        boardDto.setId(boardId);
-        boardDto.setTitle(board.getTitle());
-        boardDto.setContent(board.getContent());
+
+        BoardDto boardDto = BoardDto.builder()
+                            .id(boardId)
+                            .title(board.getTitle())
+                            .content(board.getContent())
+                            .build();
         model.addAttribute("boardDto", boardDto);
 
         return "board/update";
@@ -118,7 +120,7 @@ public class BoardController {
     * @Description: 게시판 수정
     **/
     @PutMapping("/update/{boardId}")
-    public String update(@Valid BoardDto boardDto, BindingResult result){
+    public String update(@Valid BoardDto boardDto, BindingResult result) throws Exception {
         //유효성검사 걸릴시
         if(result.hasErrors()){
             return "board/update";

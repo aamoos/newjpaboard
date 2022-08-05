@@ -1,14 +1,20 @@
 package jpa.board.service;
 
 import jpa.board.dto.BoardDto;
+import jpa.board.dto.FileDto;
 import jpa.board.entity.Board;
 import jpa.board.entity.Member;
 import jpa.board.repository.BoardRepository;
 import jpa.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,20 +31,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    /**
-    * @methodName : selectBoard
-    * @date : 2022-08-03 오후 5:50
-    * @author : 김재성
-    * @Description: 상세조회
-    **/
-    public Board selectBoardDetail(Long id){
-        return boardRepository.findById(id).get();
-    }
+    private final FileService fileService;
 
     /**
      * @methodName : saveBoard
@@ -48,7 +47,7 @@ public class BoardService {
      **/
 
     @Transactional
-    public Board saveBoard(BoardDto boardDto){
+    public Long saveBoard(BoardDto boardDto) throws Exception {
         List<Member> memberList = memberRepository.findAll();
         Member member = memberList.get(0);
         Board board = null;
@@ -65,7 +64,15 @@ public class BoardService {
             board.update(boardDto.getTitle(), boardDto.getContent());
         }
 
-        return board;
+        //업로드 할게 있을경우
+        if(boardDto.getFile() != null){
+            Long savedFileId = fileService.saveFile(boardDto);
+
+            //itemDto.setFileId(savedFileId);
+
+        }
+
+        return board.getId();
     }
 
     /**
@@ -80,6 +87,13 @@ public class BoardService {
 
         //플래그값이 Y이면 논리삭제
         board.delete("Y");
+        return board;
+    }
+
+    @Transactional
+    public Board selectBoardDetail(Long id){
+        Board board = boardRepository.findById(id).get();
+        board.updateViewCount(board.getViewCount());
         return board;
     }
 
