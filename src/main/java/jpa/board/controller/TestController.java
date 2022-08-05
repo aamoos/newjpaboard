@@ -45,14 +45,9 @@ public class TestController {
             List<Member> memberList = memberRepository.findAll();
             Member member = memberList.get(0);
 
-            BoardDto boardDto = new BoardDto();
-            boardDto.setTitle(title);
-            boardDto.setContent(content);
+            BoardDto boardDto = new BoardDto(title, content);
 
-            Board board = Board.builder()
-                    .boardDto(boardDto)
-                    .member(member)
-                    .build();
+            Board board = boardDto.toEntity(member);
             boardRepository.save(board);
         }
     }

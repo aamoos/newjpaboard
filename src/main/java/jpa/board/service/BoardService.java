@@ -46,17 +46,16 @@ public class BoardService {
      * @author : 김재성
      * @Description: 글등록
      **/
-    public Long saveBoard(BoardDto boardDto){
+
+    @Transactional
+    public Board saveBoard(BoardDto boardDto){
         List<Member> memberList = memberRepository.findAll();
         Member member = memberList.get(0);
         Board board = null;
 
         //insert
         if(boardDto.getId() == null){
-            board = Board.builder()
-                    .boardDto(boardDto)
-                    .member(member)
-                    .build();
+            board = boardDto.toEntity(member);
             boardRepository.save(board);
         }
 
@@ -66,7 +65,7 @@ public class BoardService {
             board.update(boardDto.getTitle(), boardDto.getContent());
         }
 
-        return board.getId();
+        return board;
     }
 
     /**

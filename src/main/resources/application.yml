@@ -13,6 +13,11 @@ spring: #띄어쓰기 없음
         # show_sql: true #띄어쓰기 8칸
         format_sql: true #띄어쓰기 8칸
 
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
+
   devtools:
     livereload:
       enabled: true

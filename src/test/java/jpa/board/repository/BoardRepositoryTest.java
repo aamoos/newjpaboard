@@ -46,14 +46,8 @@ public class BoardRepositoryTest {
         List<Member> memberList = memberRepository.findAll();
         Member member = memberList.get(0);
 
-        BoardDto boardDto = new BoardDto();
-        boardDto.setTitle(title);
-        boardDto.setContent(content);
-
-        Board board = Board.builder()
-                .boardDto(boardDto)
-                .member(member)
-                .build();
+        BoardDto boardDto = new BoardDto(title, content);
+        Board board = boardDto.toEntity(member);
         boardRepository.save(board);
 
         //when

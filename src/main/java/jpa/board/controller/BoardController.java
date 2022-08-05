@@ -12,9 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
+import java.util.function.LongToIntFunction;
 
 /**
  * packageName    : jpa.board.controller
@@ -102,13 +102,22 @@ public class BoardController {
     @GetMapping("/update/{boardId}")
     public String detail(@PathVariable Long boardId, Model model){
         Board board = boardService.selectBoardDetail(boardId);
+        BoardDto boardDto = new BoardDto();
+        boardDto.setId(boardId);
+        boardDto.setTitle(board.getTitle());
+        boardDto.setContent(board.getContent());
+        model.addAttribute("boardDto", boardDto);
 
-        model.addAttribute("boardDto", new BoardDto());
-        model.addAttribute("boardId", boardId);
         return "board/update";
     }
 
-    @PostMapping("/update")
+    /**
+    * @methodName : update
+    * @date : 2022-08-05 오전 11:20
+    * @author : 김재성
+    * @Description: 게시판 수정
+    **/
+    @PutMapping("/update/{boardId}")
     public String update(@Valid BoardDto boardDto, BindingResult result){
         //유효성검사 걸릴시
         if(result.hasErrors()){
@@ -119,6 +128,12 @@ public class BoardController {
         return "redirect:/";
     }
 
+    /**
+    * @methodName : delete
+    * @date : 2022-08-05 오전 11:20
+    * @author : 김재성
+    * @Description: 게시판 목록 체크박스 선택 삭제
+    **/
     @PostMapping("/delete")
     public String delete(@RequestParam List<String> boardIds){
 

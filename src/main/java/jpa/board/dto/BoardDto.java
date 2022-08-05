@@ -1,6 +1,8 @@
 package jpa.board.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import jpa.board.entity.Board;
+import jpa.board.entity.Member;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -35,6 +37,11 @@ public class BoardDto {
 
     }
 
+    public BoardDto(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
     @QueryProjection
     public BoardDto(Long id, String title, String content, LocalDateTime regDate , LocalDateTime uptDate, Long viewCount, String username){
         this.id = id;
@@ -44,5 +51,13 @@ public class BoardDto {
         this.uptDate = uptDate;
         this.viewCount = viewCount;
         this.username = username;
+    }
+
+    public Board toEntity(Member member){
+        return Board.builder()
+                .member(member)
+                .title(title)
+                .content(content)
+                .build();
     }
 }

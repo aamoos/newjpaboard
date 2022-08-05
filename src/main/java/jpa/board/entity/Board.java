@@ -63,12 +63,11 @@ public class Board {
     }
 
     @Builder
-    public Board(BoardDto boardDto, Member member){
-        this.title = boardDto.getTitle();
-        this.content = boardDto.getContent();
+    public Board(String title, String content, Member member){
+        this.title = title;
+        this.content = content;
         this.viewCount = 0L;
         this.delYn = "N";
         this.member = member;
     }
-
 }

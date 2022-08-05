@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default_layout}">
 
-<div layout:fragment="content" class="content">
+<head layout:fragment="css">
   <style>
          .fieldError {
              border-color: #bd2130;
@@ -13,13 +13,17 @@
             color: red;
          }
     </style>
-  <form th:action th:object="${boardDto}" method="post">
-    <input type="hidden" name="id" th:value="${boardId}" />
+</head>
+
+<div layout:fragment="content" class="content">
+  <form th:action="@{/update/ + *{id}}" th:object="${boardDto}" method="post">
+    <input type="hidden" name="_method" value="put"/>
+    <input type="hidden" name="id" th:value="*{id}" />
     <article>
       <div class="container" role="main">
         <div class="form-group">
           <label for="title">제목</label>
-          <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해 주세요" th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
+          <input type="text" class="form-control" id="title" name="title" th:value="*{title}" placeholder="제목을 입력해 주세요" th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
           <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect date</p>
         </div>
         <br>
@@ -30,7 +34,7 @@
         <br>
         <div class="mb-3">
           <label for="content">내용</label>
-          <textarea class="form-control" rows="5" id="content" name="content" placeholder="내용을 입력해 주세요"></textarea>
+          <textarea class="form-control" rows="5" id="content" name="content" th:text="*{content}" placeholder="내용을 입력해 주세요"></textarea>
         </div>
         <br>
         <br>
