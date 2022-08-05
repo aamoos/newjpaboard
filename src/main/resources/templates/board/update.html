@@ -16,7 +16,7 @@
 </head>
 
 <div layout:fragment="content" class="content">
-  <form th:action="@{/update/ + *{id}}" th:object="${boardDto}" method="post">
+    <form th:action="@{/update/ + *{id}}" th:object="${boardDto}" method="post">
     <input type="hidden" name="_method" value="put"/>
     <input type="hidden" name="id" th:value="*{id}" />
     <article>
