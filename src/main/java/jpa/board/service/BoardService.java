@@ -66,7 +66,7 @@ public class BoardService {
         }
 
         //파일 저장
-        fileService.saveFile(boardDto);
+        fileService.saveFile(boardDto, board.getId());
 
         return board.getId();
     }

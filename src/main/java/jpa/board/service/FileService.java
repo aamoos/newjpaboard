@@ -1,8 +1,13 @@
 package jpa.board.service;
 
 import jpa.board.dto.BoardDto;
+import jpa.board.dto.BoardFileDto;
 import jpa.board.dto.FileDto;
+import jpa.board.entity.BoardFile;
+import jpa.board.entity.Member;
+import jpa.board.repository.BoardFileRepository;
 import jpa.board.repository.FileRepository;
+import jpa.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,8 +41,12 @@ public class FileService {
 
     private final FileRepository fileRepository;
 
+    private final BoardFileRepository boardFileRepository;
+
+    private final MemberRepository memberRepository;
+
     @Transactional
-    public Map<String, Object> saveFile(BoardDto boardDto) throws Exception {
+    public Map<String, Object> saveFile(BoardDto boardDto, Long boardId) throws Exception {
         List<MultipartFile> multipartFile = boardDto.getMultipartFile();
 
         //결과 Map
@@ -68,7 +77,8 @@ public class FileService {
                                 .contentType(file1.getContentType())
                                 .build();
                         //파일 insert
-                        Long fileId = insertFile(fileDto.toEntity());
+                        jpa.board.entity.File file = fileDto.toEntity();
+                        Long fileId = insertFile(file);
                         log.info("fileId={}", fileId);
 
                         try {
@@ -85,6 +95,12 @@ public class FileService {
                             result.put("result", "FAIL");
                             break;
                         }
+
+                        BoardFileDto boardFileDto = BoardFileDto.builder()
+                                .boardId(boardId)
+                                .fileId(fileId)
+                                .build();
+                        insertBoardFile(boardFileDto.toEntity());
                     }
                 }
             }
@@ -98,6 +114,11 @@ public class FileService {
     @Transactional
     public Long insertFile(jpa.board.entity.File file) {
         return fileRepository.save(file).getId();
+    }
+
+    @Transactional
+    public Long insertBoardFile(BoardFile boardFile) {
+        return boardFileRepository.save(boardFile).getId();
     }
 
 }
