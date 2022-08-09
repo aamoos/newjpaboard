@@ -77,8 +77,7 @@ public class FileService {
                                 .contentType(file1.getContentType())
                                 .build();
                         //파일 insert
-                        jpa.board.entity.File file = fileDto.toEntity();
-                        Long fileId = insertFile(file);
+                        Long fileId = insertFile(fileDto.toEntity());
                         log.info("fileId={}", fileId);
 
                         try {
