@@ -4,11 +4,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * packageName    : jpa.board.entity
@@ -24,6 +23,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class File {
 
     @Id
@@ -43,6 +43,9 @@ public class File {
     private Long size;                  //파일 사이즈
 
     private String contentType;         //ContentType
+
+    @CreatedDate
+    private LocalDateTime regDate;     //등록 날짜
 
     @Builder
     public File(Long id, String originFileName, String savedFileName
