@@ -5,6 +5,11 @@ spring: #띄어쓰기 없음
     password:
     driver-class-name: org.h2.Driver
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   jpa: #띄어쓰기 2칸
     hibernate: #띄어쓰기 4칸
       ddl-auto: create #띄어쓰기 6칸
@@ -32,3 +37,4 @@ logging:
 
 upload:
   path: C:/study/file/
+

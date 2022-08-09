@@ -5,6 +5,7 @@ import jpa.board.dto.FileDto;
 import jpa.board.entity.Board;
 import jpa.board.entity.Member;
 import jpa.board.repository.BoardRepository;
+import jpa.board.repository.FileRepository;
 import jpa.board.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,13 +65,8 @@ public class BoardService {
             board.update(boardDto.getTitle(), boardDto.getContent());
         }
 
-        //업로드 할게 있을경우
-        if(boardDto.getFile() != null){
-            Long savedFileId = fileService.saveFile(boardDto);
-
-            //itemDto.setFileId(savedFileId);
-
-        }
+        //파일 저장
+        fileService.saveFile(boardDto);
 
         return board.getId();
     }
@@ -90,11 +86,16 @@ public class BoardService {
         return board;
     }
 
+    /**
+    * @methodName : selectBoardDetail
+    * @date : 2022-08-09 오후 3:05
+    * @author : 김재성
+    * @Description: 게시판 상세
+    **/
     @Transactional
     public Board selectBoardDetail(Long id){
         Board board = boardRepository.findById(id).get();
         board.updateViewCount(board.getViewCount());
         return board;
     }
-
 }
