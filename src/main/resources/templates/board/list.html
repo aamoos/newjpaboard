@@ -1,109 +1,114 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default_layout">
-    <div layout:fragment="content" class="content">
-        <form th:action th:object="${form}" method="get">
-            <nav class="container">
-                <br>
-                <div class="input-group">
-                    <input type="text" name="searchVal" th:value="${searchVal}" class="form-control" placeholder="제목을 입력해주세요.">
-                    <button type="submit" class="btn btn-secondary">검색</button>
-                </div>
-                <br>
-                <table class="table table-hover">
-                    <colgroup>
-                        <col width="2%" />
-                        <col width="5%" />
-                        <col width="20%" />
-                        <col width="5%" />
-                        <col width="5%" />
-                        <col width="5%" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>
-                                <label class="checkbox-inline">
-                                <input type="checkbox" id="allCheckBox" onclick="allChecked()">
-                                </label>
-                            </th>
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>날짜</th>
-                            <th>조회수</th>
-                        </tr>
-                    </thead>
+<div layout:fragment="content" class="content">
+    <form th:action th:object="${form}" method="get">
+        <nav class="container">
+            <br>
+            <div class="input-group">
+                <input type="text" name="searchVal" th:value="${searchVal}" class="form-control"
+                       placeholder="제목을 입력해주세요.">
+                <button type="submit" class="btn btn-secondary">검색</button>
+            </div>
+            <br>
+            <table class="table table-hover">
+                <colgroup>
+                    <col width="2%"/>
+                    <col width="5%"/>
+                    <col width="20%"/>
+                    <col width="5%"/>
+                    <col width="5%"/>
+                    <col width="5%"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="allCheckBox" onclick="allChecked()">
+                        </label>
+                    </th>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>날짜</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
 
-                    <tbody>
-                        <tr th:if="${totalCount == 0}">
-                            <td colspan="6" style="text-align:center">조회된 리스트가 없습니다.</td>
-                        </tr>
+                <tbody>
+                <tr th:if="${totalCount == 0}">
+                    <td colspan="6" style="text-align:center">조회된 리스트가 없습니다.</td>
+                </tr>
 
-                        <tr th:each="list, index : ${list}">
-                            <td>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" name="chk" class="chk"onclick="chkClicked()" th:value="${list.id}">
-                                </label>
-                            <td th:text="${totalCount - (size * number) - index.index}"></td>
-                            <td><a th:text="${list.title}" th:href="@{/update/{boardId}(boardId=${list.id})}"></a></td>
-                            <td th:text="${list.username}"></td>
-                            <td th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${list.viewCount}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
+                <tr th:each="list, index : ${list}">
+                    <td>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="chk" class="chk" onclick="chkClicked()" th:value="${list.id}">
+                        </label>
+                    <td th:text="${totalCount - (size * number) - index.index}"></td>
+                    <td><a th:text="${list.title}" th:href="@{/update/{boardId}(boardId=${list.id})}"></a></td>
+                    <td th:text="${list.username}"></td>
+                    <td th:text="${#temporals.format(list.regDate, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${list.viewCount}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
 
-                <div class="d-flex justify-content-end">
-                    <a href='javascript:boardDelete();' class="btn btn-danger">글삭제</a>
-                    <a href="/write" class="btn btn-primary">글쓰기</a>
-                </div>
-                <br>
-                <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
-                     th:with="start=${(list.number/maxPage)*maxPage + 1},
+            <div class="d-flex justify-content-end">
+                <a href='javascript:boardDelete();' class="btn btn-danger">글삭제</a>
+                <a href="/write" class="btn btn-primary">글쓰기</a>
+            </div>
+            <br>
+            <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
+                 th:with="start=${(list.number/maxPage)*maxPage + 1},
                       end=(${(list.totalPages == 0) ? 1 : (start + (maxPage - 1) < list.totalPages ? start + (maxPage - 1) : list.totalPages)})">
-                    <ul class="pagination">
+                <ul class="pagination">
 
-                        <li th:if="${start > 1}" class="page-item">
-                            <a th:href="@{/?(page=0, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;&laquo;</span>
-                            </a>
-                        </li>
+                    <li th:if="${start > 1}" class="page-item">
+                        <a th:href="@{/?(page=0, searchVal=${searchVal})}" class="page-link" href="#"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
 
-                        <li th:if="${start > 1}" class="page-item">
-                            <a th:href="@{/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
+                    <li th:if="${start > 1}" class="page-item">
+                        <a th:href="@{/?(page=${start - maxPage-1}, searchVal=${searchVal})}" class="page-link" href="#"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
 
-                        <li th:each="page: ${#numbers.sequence(start, end)}" class="page-item" th:classappend="${list.number+1 == page} ? active">
-                            <a th:href="@{/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link" href="#">1</a>
-                        </li>
+                    <li th:each="page: ${#numbers.sequence(start, end)}" class="page-item"
+                        th:classappend="${list.number+1 == page} ? active">
+                        <a th:href="@{/?(page=${page-1}, searchVal=${searchVal})}" th:text="${page}" class="page-link"
+                           href="#">1</a>
+                    </li>
 
-                        <li th:if="${end < list.totalPages}" class="page-item">
-                            <a th:href="@{/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
+                    <li th:if="${end < list.totalPages}" class="page-item">
+                        <a th:href="@{/?(page=${start + maxPage -1}, searchVal=${searchVal})}" class="page-link"
+                           href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
 
-                        <li th:if="${end < list.totalPages}" class="page-item">
-                            <a th:href="@{/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                    <li th:if="${end < list.totalPages}" class="page-item">
+                        <a th:href="@{/?(page=${list.totalPages-1}, searchVal=${searchVal})}" class="page-link" href="#"
+                           aria-label="Next">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
             </nav>
-        </form>
-    </div>
+        </nav>
+    </form>
+</div>
 </html>
 
 <script>
 
     //체크박스 전체 선택 클릭 이벤트
     function allChecked(target){
-
         //전체 체크박스 버튼
         const checkbox = document.getElementById('allCheckBox');
 
@@ -114,9 +119,7 @@
         if(is_checked){
             //체크박스 전체 체크
             chkAllChecked()
-        }
-
-        else{
+        } else{
             //체크박스 전체 해제
             chkAllUnChecked()
         }
@@ -136,10 +139,8 @@
         //체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 전체 체크박스 체크
         if(allCount == selectedElementsCnt){
              document.getElementById('allCheckBox').checked = true;
-        }
-
-        //같지않으면 전체 체크박스 해제
-        else{
+        } else{
+             //같지않으면 전체 체크박스 해제
             document.getElementById('allCheckBox').checked = false;
         }
     }
@@ -170,9 +171,7 @@
         if(selectedElementsCnt == 0){
             alert("삭제할 항목을 선택해주세요.");
             return false;
-        }
-
-        else{
+        } else{
             if (confirm("정말로 삭제하시겠습니까?")) {
                 //배열생성
                 const arr = new Array(selectedElementsCnt);
@@ -196,5 +195,6 @@
             }
         }
     }
+
 
 </script>

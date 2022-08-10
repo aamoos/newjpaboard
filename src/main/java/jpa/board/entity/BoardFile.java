@@ -44,4 +44,9 @@ public class BoardFile {
         this.delYn = "N";
         this.file = file;
     }
+
+    public BoardFile delete(String delYn){
+        this.delYn = delYn;
+        return this;
+    }
 }

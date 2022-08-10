@@ -4,7 +4,7 @@
       layout:decorate="~{layout/default_layout}">
 
 <head layout:fragment="css">
-  <style>
+    <style>
          .fieldError {
              border-color: #bd2130;
          }
@@ -12,47 +12,85 @@
          .form-group p{
             color: red;
          }
+
     </style>
 </head>
 
 <div layout:fragment="content" class="content">
     <form th:action="@{/update/ + *{id}}" th:object="${boardDto}" method="post">
-    <input type="hidden" name="_method" value="put"/>
-    <input type="hidden" name="id" th:value="*{id}" />
-    <article>
-      <div class="container" role="main">
-        <div class="form-group">
-          <label for="title">제목</label>
-          <input type="text" class="form-control" id="title" name="title" th:value="*{title}" placeholder="제목을 입력해 주세요" th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
-          <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect date</p>
-        </div>
-        <br>
-        <div class="mb-3">
-          <label for="reg_id">작성자</label>
-          <input type="text" class="form-control" id="reg_id" name="regId"  value="관리자" readonly>
-        </div>
-        <br>
-        <div class="mb-3">
-          <label for="content">내용</label>
-          <textarea class="form-control" rows="5" id="content" name="content" th:text="*{content}" placeholder="내용을 입력해 주세요"></textarea>
-        </div>
-        <br>
-        <div class="mb-3">
-          <label for="content">첨부파일</label>
-          <p th:each="boardFile, index : ${boardFile}">
-              <a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
-          </p>
-        </div>
-        <br>
-        <div>
-          <button type="submit" class="btn btn-sm btn-primary" id="btnSave">수정</button>
-          <button onclick="location.href='/'" type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
-        </div>
-      </div>
-    </article>
-  </form>
+        <input type="hidden" name="_method" value="put"/>
+        <input type="hidden" id="boardId" name="id" th:value="*{id}"/>
+        <article>
+            <div class="container" role="main">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="*{title}"
+                           placeholder="제목을 입력해 주세요"
+                           th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect date</p>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="reg_id">작성자</label>
+                    <input type="text" class="form-control" id="reg_id" name="regId" value="관리자" readonly>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="content">내용</label>
+                    <textarea class="form-control" rows="5" id="content" name="content" th:text="*{content}"
+                              placeholder="내용을 입력해 주세요"></textarea>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="content">첨부파일</label>
+                    <p th:each="boardFile, index : ${boardFile}">
+                        <a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}"
+                           th:text="${boardFile.originFileName}">파일이름1.png</a>
+                        <span>
+                <button th:fileId="${boardFile.boardFileId}" th:onclick="boardDelete(this.getAttribute('fileId'))"
+                        type="button" class="btn btn-outline-danger">삭제</button>
+            </span>
+                    </p>
+                </div>
+                <br>
+                <div>
+                    <button type="submit" class="btn btn-sm btn-primary" id="btnSave">수정</button>
+                    <button onclick="location.href='/'" type="button" class="btn btn-sm btn-primary" id="btnList">목록
+                    </button>
+                </div>
+            </div>
+        </article>
+    </form>
 </div>
 </html>
 
 <script>
+  //글삭제
+    function boardDelete(fileId){
+        if (confirm("정말로 삭제하시겠습니까?")) {
+            //배열생성
+            const form = document.createElement('form');
+            form.setAttribute('method', 'post');        //Post 메소드 적용
+            form.setAttribute('action', '/boardFileDelete');
+
+            //파일 id
+            var input1 = document.createElement('input');
+            input1.setAttribute("type", "hidden");
+            input1.setAttribute("name", "fileId");
+            input1.setAttribute("value", fileId);
+
+            //게시판 id
+            const selectedElements = document.querySelector("#boardId")
+            var input2 = document.createElement('input');
+            input2.setAttribute("type", "hidden");
+            input2.setAttribute("name", "boardId");
+            input2.setAttribute("value", selectedElements.value);
+
+            form.appendChild(input1);
+            form.appendChild(input2);
+            console.log(form);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
 </script>

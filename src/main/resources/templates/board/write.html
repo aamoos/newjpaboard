@@ -12,6 +12,7 @@
          .form-group p{
             color: red;
          }
+
     </style>
 </head>
 
@@ -21,18 +22,20 @@
             <div class="container" role="main">
                 <div class="form-group">
                     <label for="title">제목</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해 주세요" th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해 주세요"
+                           th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
                     <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect date</p>
                 </div>
                 <br>
                 <div class="mb-3">
                     <label for="reg_id">작성자</label>
-                    <input type="text" class="form-control" id="reg_id" name="regId"  value="관리자" readonly>
+                    <input type="text" class="form-control" id="reg_id" name="regId" value="관리자" readonly>
                 </div>
                 <br>
                 <div class="mb-3">
                     <label for="content">내용</label>
-                    <textarea class="form-control" rows="5" id="content" name="content" placeholder="내용을 입력해 주세요"></textarea>
+                    <textarea class="form-control" rows="5" id="content" name="content"
+                              placeholder="내용을 입력해 주세요"></textarea>
                 </div>
                 <br>
                 <div class="mb-3">
@@ -42,7 +45,8 @@
                 <br>
                 <div>
                     <button type="submit" class="btn btn-sm btn-primary" id="btnSave">저장</button>
-                    <button onclick="location.href='/'" type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+                    <button onclick="location.href='/'" type="button" class="btn btn-sm btn-primary" id="btnList">목록
+                    </button>
                 </div>
             </div>
         </article>

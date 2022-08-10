@@ -5,6 +5,7 @@ import jpa.board.entity.Board;
 import jpa.board.repository.BoardRepository;
 import jpa.board.repository.CustomBoardRepository;
 import jpa.board.service.BoardService;
+import jpa.board.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,8 @@ public class BoardController {
 
     private final CustomBoardRepository customBoardRepository;
     private final BoardService boardService;
+
+    private final FileService fileService;
 
     /**
     * @methodName : list
@@ -146,5 +149,20 @@ public class BoardController {
         }
 
         return "redirect:/";
+    }
+
+    /**
+    * @methodName : boardFileDelete
+    * @date : 2022-08-10 오후 5:23
+    * @author : 김재성
+    * @Description: 파일삭제
+    **/
+    @PostMapping("/boardFileDelete")
+    public String boardFileDelete(@RequestParam Long fileId, @RequestParam Long boardId){
+
+        //게시판 파일삭제
+        fileService.deleteBoardFile(fileId);
+
+        return "redirect:/update/"+boardId;
     }
 }

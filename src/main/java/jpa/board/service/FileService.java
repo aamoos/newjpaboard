@@ -3,6 +3,7 @@ package jpa.board.service;
 import jpa.board.dto.BoardDto;
 import jpa.board.dto.BoardFileDto;
 import jpa.board.dto.FileDto;
+import jpa.board.entity.Board;
 import jpa.board.entity.BoardFile;
 import jpa.board.entity.Member;
 import jpa.board.repository.BoardFileRepository;
@@ -121,4 +122,20 @@ public class FileService {
     public Long insertBoardFile(BoardFile boardFile) {
         return boardFileRepository.save(boardFile).getId();
     }
+
+    /**
+    * @methodName : deleteBoardFile
+    * @date : 2022-08-10 오후 5:27
+    * @author : 김재성
+    * @Description: 게시판 파일 삭제
+    **/
+    @Transactional
+    public BoardFile deleteBoardFile(Long boardFileId){
+        BoardFile boardFile = boardFileRepository.findById(boardFileId).get();
+
+        //삭제
+        boardFile.delete("Y");
+        return boardFile;
+    }
+
 }

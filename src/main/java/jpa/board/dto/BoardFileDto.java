@@ -24,6 +24,8 @@ import java.time.LocalDateTime;
 @Data
 public class BoardFileDto {
 
+    private Long boardFileId;
+
     private Long id;
 
     private Long fileId;
@@ -46,7 +48,8 @@ public class BoardFileDto {
     }
 
     @QueryProjection
-    public BoardFileDto(Long fileId, String originFileName, Long size, String extension){
+    public BoardFileDto(Long boardFileId, Long fileId, String originFileName, Long size, String extension){
+        this.boardFileId = boardFileId;
         this.fileId = fileId;
         this.originFileName = originFileName;
         this.size = size;

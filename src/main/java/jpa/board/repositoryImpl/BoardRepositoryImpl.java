@@ -62,7 +62,8 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
     public List<BoardFileDto> selectBoardFileDetail(Long boardId) {
         List<BoardFileDto> content = jpaQueryFactory
                 .select(new QBoardFileDto(
-                         boardFile.file.id
+                         boardFile.id
+                        ,boardFile.file.id
                         ,boardFile.file.originFileName
                         ,boardFile.file.size
                         ,boardFile.file.extension
@@ -72,7 +73,6 @@ public class BoardRepositoryImpl implements CustomBoardRepository {
                 .where(boardFile.boardId.eq(boardId))
                 .where(boardFile.delYn.eq("N"))
                 .fetch();
-
         return content;
     }
 
