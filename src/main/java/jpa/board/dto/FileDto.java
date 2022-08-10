@@ -43,7 +43,7 @@ public class FileDto {
 
     @Builder
     public FileDto(Long id, String originFileName, String savedFileName, String uploadDir
-    , String extension, Long size, String contentType){
+            , String extension, Long size, String contentType){
         this.id = id;
         this.originFileName = originFileName;
         this.savedFileName = savedFileName;
