@@ -39,8 +39,9 @@
         <br>
         <div class="mb-3">
           <label for="content">첨부파일</label>
-          <p><a href="#">파일이름1.png</a></p>
-          <p><a href="#">파일이름2.png</a></p>
+          <p th:each="boardFile, index : ${boardFile}">
+              <a th:href="@{/fileDownload/{boardId}(boardId=${boardFile.fileId})}" th:text="${boardFile.originFileName}">파일이름1.png</a>
+          </p>
         </div>
         <br>
         <div>

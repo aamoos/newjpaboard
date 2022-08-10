@@ -109,6 +109,7 @@ public class BoardController {
                             .content(board.getContent())
                             .build();
         model.addAttribute("boardDto", boardDto);
+        model.addAttribute("boardFile", customBoardRepository.selectBoardFileDetail(boardId));
 
         return "board/update";
     }
