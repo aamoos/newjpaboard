@@ -32,14 +32,16 @@ public class BoardFile {
     private Long id;            //번호
 
     private Long boardId;
-    private Long fileId;
-
     private String delYn;
 
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    private File file;
+
     @Builder
-    public BoardFile(Long boardId, Long fileId, String delYn){
+    public BoardFile(Long boardId, Long fileId, String delYn, File file){
         this.boardId = boardId;
-        this.fileId = fileId;
         this.delYn = "N";
+        this.file = file;
     }
 }

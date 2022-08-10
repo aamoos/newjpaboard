@@ -77,7 +77,8 @@ public class FileService {
                                 .contentType(file1.getContentType())
                                 .build();
                         //파일 insert
-                        Long fileId = insertFile(fileDto.toEntity());
+                        jpa.board.entity.File file = fileDto.toEntity();
+                        Long fileId = insertFile(file);
                         log.info("fileId={}", fileId);
 
                         try {
@@ -97,9 +98,10 @@ public class FileService {
 
                         BoardFileDto boardFileDto = BoardFileDto.builder()
                                 .boardId(boardId)
-                                .fileId(fileId)
                                 .build();
-                        insertBoardFile(boardFileDto.toEntity());
+
+                        BoardFile boardFile = boardFileDto.toEntity(file);
+                        insertBoardFile(boardFile);
                     }
                 }
             }
@@ -119,5 +121,4 @@ public class FileService {
     public Long insertBoardFile(BoardFile boardFile) {
         return boardFileRepository.save(boardFile).getId();
     }
-
 }

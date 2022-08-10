@@ -1,10 +1,13 @@
 package jpa.board.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import jpa.board.entity.Board;
 import jpa.board.entity.BoardFile;
 import jpa.board.entity.File;
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * packageName    : jpa.board.dto
@@ -25,22 +28,19 @@ public class BoardFileDto {
 
     private Long boardId;
 
-    private Long fileId;
-
     public BoardFileDto(){
 
     }
 
     @Builder
-    public BoardFileDto(Long boardId, Long fileId){
+    public BoardFileDto(Long boardId){
         this.boardId = boardId;
-        this.fileId = fileId;
     }
 
-    public BoardFile toEntity(){
+    public BoardFile toEntity(File file){
         return BoardFile.builder()
                 .boardId(boardId)
-                .fileId(fileId)
+                .file(file)
                 .build();
     }
 }

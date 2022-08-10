@@ -8,8 +8,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * packageName    : jpa.board.entity
@@ -49,6 +47,9 @@ public class File {
 
     @CreatedDate
     private LocalDateTime regDate;     //등록 날짜
+
+    @OneToOne(mappedBy = "file")
+    private BoardFile boardFile;
 
     @Builder
     public File(Long id, String originFileName, String savedFileName
